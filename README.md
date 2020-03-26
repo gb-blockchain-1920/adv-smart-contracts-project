@@ -10,7 +10,11 @@ Four functions: ([discussed here](https://hackernoon.com/working-with-strings-in
 - changing the character at a given location in the string
 - joining two strings
 - extracting part of a string
-- Other functions (if time permitting - [JS string documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)):
+<!-- - Other functions (if time permitting - [JS string documentation](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String)):
   - toLowercase
   - toUppercase
-  - includes
+  - includes -->
+
+- [Solidity assembly](https://solidity.readthedocs.io/en/v0.5.12/assembly.html)
+- [Bitwise operators](https://medium.com/@imolfar/bitwise-operations-and-bit-manipulation-in-solidity-ethereum-1751f3d2e216)
+- [bytes32 to bytes](https://ethereum.stackexchange.com/questions/40920/convert-bytes32-to-bytes)

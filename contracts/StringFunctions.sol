@@ -25,9 +25,9 @@ contract StringFunctions {
         bytes memory _A = bytes(A);
         require(ii < _A.length, "index out of range");
 
-        bytes memory test = new bytes(1);
-        test[0] = _A[ii];
-        return string(test);
+        bytes memory output = new bytes(1);
+        output[0] = _A[ii];
+        return string(output);
         // return string(_A[ii]); //doesn't work - bytes1 not allowed to be converted to string memory
     }
 
