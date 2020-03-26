@@ -17,3 +17,4 @@ Four functions: ([discussed here](https://hackernoon.com/working-with-strings-in
 
 - [Solidity assembly](https://solidity.readthedocs.io/en/v0.5.12/assembly.html)
 - [Bitwise operators](https://medium.com/@imolfar/bitwise-operations-and-bit-manipulation-in-solidity-ethereum-1751f3d2e216)
+- [bytes32 to bytes](https://ethereum.stackexchange.com/questions/40920/convert-bytes32-to-bytes)
