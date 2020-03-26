@@ -57,11 +57,13 @@ For assembly implementation:
 - Converting the contracts to libraries and being able to use it with other contracts.
   - _Not Implemented_
   - Not necessary in this use case. It would be more inefficient to need to create an additional contract to test the functions.
-- CI/CD in Github for automatically running test cases
-  - _Not Implemented_
 - Test cases for comparing functionality between JavaScript, the contract without assembly, and the contract with assembly
   - _Implemented_
-  - Using `truffle test` and `truffle run coverage`
+  - Using `truffle test` - **incomplete**
+  - Using `truffle run coverage` - current coverage: **0%**
+- CI/CD in Github for automatically running test cases
+  - _Implemented_
+  - Using `truffle test`
 
 ### Resources
 - [Solidity assembly](https://solidity.readthedocs.io/en/v0.5.12/assembly.html)
