@@ -7,13 +7,18 @@ const logOutput = (...params) => {
 };
 
 //https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript
-const randomString = length => {
-  console.log(length);
-  let result = "";
+const randomString = () => {
+  const lengths = [Math.ceil(Math.random() * 32)];
+  lengths.push(Math.ceil(Math.random() * (32 - lengths[0])));
+  const result = ["", ""];
   const characters =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  for (var i = 0; i < lengths.length; i++) {
+    for (var j = 0; j < lengths[i]; j++) {
+      result[i] += characters.charAt(
+        Math.floor(Math.random() * characters.length)
+      );
+    }
   }
   return result;
 };
@@ -52,15 +57,13 @@ contract("StringFunctions + StringFunctionsAssembly", accounts => {
   });
 
   it("concatenate functions correctly", async () => {
-    const string0 = randomString(Math.ceil(Math.random() * 32));
-    const string1 = randomString(Math.ceil(Math.random()*(32 - string0.length)));
+    const str = randomString();
 
-    const comb0 = string0.concat(string1);
-    const comb1 = await stringFunc.concatenate(string0, string1);
-    const comb2 = await stringAssem.concatenate(string0, string1);
+    const comb0 = str[0].concat(str[1]);
+    const comb1 = await stringFunc.concatenate(str[0], str[1]);
+    const comb2 = await stringAssem.concatenate(str[0], str[1]);
 
-    console.log(comb0, comb0.length, comb1, comb1.length, comb2, comb2.length);
-    assert.equal(comb0, comb1, "JS concatenate = concatenate (no assembly)")
-    assert.equal(comb0, comb2, "JS concatenate = concatenate (assembly)")
+    assert.equal(comb0, comb1, "JS concatenate = concatenate (no assembly)");
+    assert.equal(comb0, comb2, "JS concatenate = concatenate (assembly)");
   });
 });
