@@ -13,7 +13,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "mocha"
+    "test": "truffle test"
   },
   "author": "",
   "license": "ISC"
