@@ -8,8 +8,7 @@ contract StringFunctionsAssembly {
 
     function _concatenate(string memory A, string memory B) private pure returns (bytes32 output) {
         assembly{
-            if gt(mload(A), 16) {revert(0,0)} //can't handle moer than 16 bytes for each string
-            if gt(mload(B), 16) {revert(0,0)}
+            if gt(add(mload(A), mload(B)), 32) {revert(0,0)} //can't handle moer than 32 bytes for total
             output := add(mload(0xa0), div(mload(0xe0), exp(2,mul(mload(A), 8)))) //shift bytes for B over by the length of A, and then add them together to combine string
         }
     }
@@ -36,7 +35,7 @@ contract StringFunctionsAssembly {
     function _replace(string memory A, uint256 ii, string memory B) private pure returns (bytes32 output){
         assembly {
             if gt(ii, sub(mload(A), 1)) {revert(0,0)}
-            if eq(1, mod(1 ,mload(B))) {revert(0,0)}
+            if eq(1, mod(1, mload(B))) {revert(0,0)}
 
             output := add(and(mload(0xa0), not(shl(sub(256, mul(8, add(ii, 1))), sub(exp(2, 8), 1)))), shr(mul(8, ii), mload(0xe0)))
         }
