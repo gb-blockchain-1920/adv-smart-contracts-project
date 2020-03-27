@@ -40,7 +40,7 @@ contract StringFunctions {
         bytes memory _B = bytes(B); //convert to bytes
         require(_B.length == 1, "incorrect replacement size"); //validate single character
         _A[ii] = _B[0]; //assign to correct location
-        return string(_A)
+        return string(_A);
     }
 
     function length(string memory A) public pure returns (uint256) {
