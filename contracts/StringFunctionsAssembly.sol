@@ -30,6 +30,7 @@ contract StringFunctionsAssembly {
 
     function replace(string memory A, uint256 ii, string memory B) public pure returns (string memory output){
         assembly {
+            if gt(mload(A), 32) {revert(0,0)} //can't handle more than 32 bytes for total
             if gt(ii, sub(mload(A), 1)) {revert(0,0)}
             if eq(1, mod(1, mload(B))) {revert(0,0)}
 

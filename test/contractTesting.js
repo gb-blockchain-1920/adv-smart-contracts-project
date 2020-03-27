@@ -23,6 +23,8 @@ const randomString = () => {
   return result;
 };
 
+const longString = new Array(100).fill("A").join("");
+
 contract("StringFunctions + StringFunctionsAssembly", accounts => {
   let stringFunc;
   let stringAssem;
@@ -68,6 +70,12 @@ contract("StringFunctions + StringFunctionsAssembly", accounts => {
 
     assert.equal(comb0, comb1, "JS concatenate = concatenate (no assembly)");
     assert.equal(comb0, comb2, "JS concatenate = concatenate (assembly)");
+
+    truffleAssert.reverts(
+      stringAssem.concatenate(comb1, comb2),
+      null,
+      "maximum 32 bytes"
+    );
   });
 
   it("charAt() functions correctly", async () => {
@@ -80,6 +88,23 @@ contract("StringFunctions + StringFunctionsAssembly", accounts => {
 
     assert.equal(char0, char1, "JS charAt = charAt (no assembly)");
     assert.equal(char0, char2, "JS charAt = charAt (assembly)");
+
+    truffleAssert.reverts(
+      stringFunc.charAt(str[0], str[0].length),
+      null,
+      "(func) indice is too large"
+    );
+
+    truffleAssert.reverts(
+      stringAssem.charAt(longString, ind),
+      null,
+      "maximum 32 bytes"
+    );
+    truffleAssert.reverts(
+      stringAssem.charAt(str[0], str[0].length),
+      null,
+      "(assem) indice is too large"
+    );
   });
 
   it("replace() functions correctly", async () => {
@@ -95,6 +120,33 @@ contract("StringFunctions + StringFunctionsAssembly", accounts => {
 
     assert.equal(str0, str1, "JS replace = replace (no assembly)");
     assert.equal(str0, str2, "JS replace = replace (assembly)");
+
+    truffleAssert.reverts(
+      stringFunc.replace(str[0], str[0].length, letter),
+      null,
+      "(func) indice is too large"
+    );
+    truffleAssert.reverts(
+      stringFunc.replace(str[0], ind, "AB"),
+      null,
+      "(func) character is not single byte"
+    );
+
+    truffleAssert.reverts(
+      stringAssem.replace(longString, ind, letter),
+      null,
+      "maximum 32 bytes"
+    );
+    truffleAssert.reverts(
+      stringAssem.replace(str[0], str[0].length, letter),
+      null,
+      "(assem) indice is too large"
+    );
+    truffleAssert.reverts(
+      stringAssem.replace(str[0], ind, "AB"),
+      null,
+      "(assem) character is not single byte"
+    );
   });
 
   it("length() functions correctly", async () => {
@@ -127,6 +179,66 @@ contract("StringFunctions + StringFunctionsAssembly", accounts => {
 
     assert.equal(slice0, slice1, "JS slice = slice (no assembly)");
     assert.equal(slice0, slice2, "JS slice = slice (assembly)");
+
+    truffleAssert.reverts(
+      stringFunc.methods["slice(string,uint256,uint256)"](
+        str[0],
+        ind[1] + 1,
+        ind[1]
+      ),
+      null,
+      "(func) incorrect indices"
+    );
+
+    truffleAssert.reverts(
+      stringFunc.methods["slice(string,uint256,uint256)"](
+        str[0],
+        str[0].length,
+        str[0].length + 2
+      ),
+      null,
+      "(func) first index out of range"
+    );
+
+    truffleAssert.reverts(
+      stringFunc.methods["slice(string,uint256,uint256)"](
+        str[0],
+        ind[0],
+        str[0].length + 2
+      ),
+      null,
+      "(func) second index out of range"
+    );
+
+    truffleAssert.reverts(
+      stringAssem.methods["slice(string,uint256,uint256)"](
+        str[0],
+        ind[1] + 1,
+        ind[1]
+      ),
+      null,
+      "(assem) incorrect indices"
+    );
+
+    truffleAssert.reverts(
+      stringAssem.methods["slice(string,uint256,uint256)"](
+        str[0],
+        str[0].length,
+        str[0].length + 2
+      ),
+      null,
+      "(assem) first index out of range"
+    );
+
+    truffleAssert.reverts(
+      stringAssem.methods["slice(string,uint256,uint256)"](
+        str[0],
+        ind[0],
+        str[0].length + 2
+      ),
+      null,
+      "(assem) second index out of range"
+    );
   });
 
   it("slice() with 2 inputs functions correctly", async () => {
