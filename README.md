@@ -50,8 +50,7 @@ However, there are always possible exploitations:
 
 ### Current Limitations
 For assembly implementation:
-- Strings must be less than 32 bytes for most functions
-- Strings must be less than 16 bytes for `concatenate`
+- Strings must be less than 32 bytes (total) for most functions
 
 ### Additional/Possible Implementations
 - Converting the contracts to libraries and being able to use it with other contracts.
@@ -59,11 +58,37 @@ For assembly implementation:
   - Not necessary in this use case. It would be more inefficient to need to create an additional contract to test the functions.
 - Test cases for comparing functionality between JavaScript, the contract without assembly, and the contract with assembly
   - _Implemented_
-  - Using `truffle test` - **incomplete**
-  - Using `truffle run coverage` - current coverage: **0%**
+  - Using `truffle test`
+    ```
+    Contract: StringFunctions + StringFunctionsAssembly
+        Assembly: 634491 Non-Assembly: 864574
+      ✓ deployment gas optimization correct (295ms)
+      ✓ concatenate() functions correctly (315ms)
+      ✓ charAt() functions correctly (216ms)
+      ✓ replace() functions correctly (281ms)
+      ✓ length() functions correctly (358ms)
+      ✓ slice() with 3 inputs functions correctly (125ms)
+      ✓ slice() with 2 inputs functions correctly (405ms)
+
+      7 passing (2s)
+      ```
+  - Using `truffle run coverage`
+
+    ```
+    ------------------------------|----------|----------|----------|----------|----------------|
+    File                          |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+    ------------------------------|----------|----------|----------|----------|----------------|
+     contracts/                   |      100 |      100 |      100 |      100 |                |
+      StringFunctions.sol         |      100 |      100 |      100 |      100 |                |
+      StringFunctionsAssembly.sol |      100 |      100 |      100 |      100 |                |
+    ------------------------------|----------|----------|----------|----------|----------------|
+    All files                     |      100 |      100 |      100 |      100 |                |
+    ------------------------------|----------|----------|----------|----------|----------------|
+    ```
 - CI/CD in Github for automatically running test cases
   - _Implemented_
   - Using `truffle test`
+  - See [nodejs.yml](./.github/workflows/nodejs.yml)
 
 ### Resources
 - [Solidity assembly](https://solidity.readthedocs.io/en/v0.5.12/assembly.html)
